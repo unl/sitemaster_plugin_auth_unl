@@ -62,9 +62,9 @@ class Auth implements ViewableInterface
     }
 
     /**
-     * Get the opauth object for this authentication plugin
+     * Get the SimpleCAS client
      *
-     * @return \Opauth\Opauth
+     * @return \SimpleCAS
      */
     public function getClient()
     {
