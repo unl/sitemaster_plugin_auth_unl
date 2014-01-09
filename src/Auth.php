@@ -42,12 +42,12 @@ class Auth implements ViewableInterface
         $client->forceAuthentication();
 
         if (!$client->isAuthenticated()) {
-            throw new Exception('Unable to authenticate', 403);
+            throw new RuntimeException('Unable to authenticate', 403);
         }
 
         $uid = trim(strtolower($client->getUsername()));
         if (!$user = User::getByUIDAndProvider($client->getUsername(), $plugin->getProviderMachineName())) {
-            $info = $this->getUserInfo($uid);
+            $info = self::getUserInfo($uid);
             
             $user = User::createUser($client->getUsername(), $plugin->getProviderMachineName(), $info);
         }
@@ -85,11 +85,11 @@ class Auth implements ViewableInterface
      * @param string $uid
      * @return array
      */
-    public function getUserInfo($uid)
+    public static function getUserInfo($uid)
     {
         $info = array();
         
-        if (!$json = file_get_contents(self::$directory_url . '?uid=' . $uid . '&format=json')) {
+        if (!$json = @file_get_contents(self::$directory_url . '?uid=' . $uid . '&format=json')) {
             return $info;
         }
         
