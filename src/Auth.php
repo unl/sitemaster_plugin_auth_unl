@@ -1,13 +1,11 @@
 <?php
 namespace SiteMaster\Plugins\Auth_Unl;
 
-use \SiteMaster\Config;
-use SiteMaster\Exception;
-use SiteMaster\Plugin\PluginManager;
-use SiteMaster\Session;
-use SiteMaster\User\User;
-use SiteMaster\Util;
-use \SiteMaster\ViewableInterface;
+use \SiteMaster\Core\Config;
+use SiteMaster\Core\Plugin\PluginManager;
+use SiteMaster\Core\User\Session;
+use SiteMaster\Core\User\User;
+use \SiteMaster\Core\ViewableInterface;
 
 class Auth implements ViewableInterface
 {
@@ -52,13 +50,13 @@ class Auth implements ViewableInterface
             $user = User::createUser($client->getUsername(), $plugin->getProviderMachineName(), $info);
         }
 
-        \SiteMaster\User\Session::logIn($user);
+        Session::logIn($user);
     }
     
     public function logout()
     {
         $client = $this->getClient();
-        $client->logout(\SiteMaster\Config::get('URL'));
+        $client->logout(Config::get('URL'));
     }
 
     /**
