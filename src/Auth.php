@@ -71,7 +71,21 @@ class Auth implements ViewableInterface
             'port'     => 443,
             'uri'      => 'cas'
         );
+        
         $protocol = new \SimpleCAS_Protocol_Version2($options);
+
+        /**
+         * We need to customize the request to use CURL because 
+         * php5.4 and ubuntu systems can't verify ssl connections 
+         * without specifying a CApath.  CURL does this automatically
+         * based on the system, but openssl does not.
+         * 
+         * It looks like this will be fixed in php 5.6
+         * https://wiki.php.net/rfc/tls-peer-verification
+         */
+        $request = new \HTTP_Request2();
+        $request->setConfig('adapter', 'HTTP_Request2_Adapter_Curl');
+        $protocol->setRequest($request);
 
         return \SimpleCAS::client($protocol);
     }
