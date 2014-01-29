@@ -1,5 +1,5 @@
 <?php
-namespace SiteMaster\Plugins\Auth_Unl;
+namespace SiteMaster\Plugins\Auth_unl;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;

@@ -1,6 +1,6 @@
 <?php
 
-namespace SiteMaster\Plugins\Auth_Unl;
+namespace SiteMaster\Plugins\Auth_unl;
 
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Events\RoutesCompile;
