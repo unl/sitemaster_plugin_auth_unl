@@ -4,6 +4,7 @@ namespace SiteMaster\Plugins\Auth_unl;
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
 use SiteMaster\Core\Events\RoutesCompile;
+use SiteMaster\Core\Events\User\Search;
 use SiteMaster\Core\Plugin\AuthenticationInterface;
 use SiteMaster\Core\Plugin\PluginInterface;
 
@@ -85,6 +86,11 @@ class Plugin extends PluginInterface implements AuthenticationInterface
         $listeners[] = array(
             'event'    => GetAuthenticationPlugins::EVENT_NAME,
             'listener' => array($listener, 'onGetAuthenticationPlugins')
+        );
+
+        $listeners[] = array(
+            'event'    => Search::EVENT_NAME,
+            'listener' => array($listener, 'onUserSearch')
         );
 
         return $listeners;
