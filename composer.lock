@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e3ecd82ebcbb22ce46581a26668ad8b3",
+    "hash": "1ece4d59e95ccffe62a11ebc43d0e937",
     "packages": [
         {
             "name": "SimpleCAS/SimpleCAS",
