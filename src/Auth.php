@@ -2,6 +2,7 @@
 namespace SiteMaster\Plugins\Auth_unl;
 
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Controller;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
@@ -51,6 +52,8 @@ class Auth implements ViewableInterface
         }
 
         Session::logIn($user);
+        
+        Controller::redirect($user->getURL());
     }
     
     public function logout()
