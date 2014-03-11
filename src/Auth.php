@@ -6,6 +6,7 @@ use SiteMaster\Core\Controller;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
+use SiteMaster\Core\Util;
 use SiteMaster\Core\ViewableInterface;
 
 class Auth implements ViewableInterface
@@ -22,12 +23,12 @@ class Auth implements ViewableInterface
      */
     function __construct($options = array())
     {
-        $this->authenticate();
-        
         if (strpos($options['current_url'], 'logout') !== false) {
             //handle callback
             $this->logout();
         }
+
+        $this->authenticate();
     }
 
     /**
@@ -59,7 +60,7 @@ class Auth implements ViewableInterface
     public function logout()
     {
         $client = $this->getClient();
-        $client->logout(Config::get('URL'));
+        $client->logout(Util::getAbsoluteBaseURL());
     }
 
     /**
