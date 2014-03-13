@@ -3,6 +3,7 @@ namespace SiteMaster\Plugins\Auth_unl;
 
 use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
+use SiteMaster\Core\Events\Navigation\MainCompile;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Events\User\Search;
 use SiteMaster\Core\Plugin\AuthenticationInterface;
@@ -91,6 +92,12 @@ class Plugin extends PluginInterface implements AuthenticationInterface
         $listeners[] = array(
             'event'    => Search::EVENT_NAME,
             'listener' => array($listener, 'onUserSearch')
+        );
+
+        $listeners[] = array(
+            'event'    => MainCompile::EVENT_NAME,
+            'listener' => array($listener, 'onNavigationMainCompile'),
+            'priority' => -6,  //Should be the last primary nav element
         );
 
         return $listeners;
