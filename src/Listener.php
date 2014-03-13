@@ -2,10 +2,13 @@
 
 namespace SiteMaster\Plugins\Auth_unl;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Events\GetAuthenticationPlugins;
+use SiteMaster\Core\Events\Navigation\MainCompile;
 use SiteMaster\Core\Events\RoutesCompile;
 use SiteMaster\Core\Events\User\Search;
 use SiteMaster\Core\Plugin\PluginListener;
+use SiteMaster\Core\User\Session;
 
 class Listener extends PluginListener
 {
@@ -81,5 +84,19 @@ class Listener extends PluginListener
         }
         
         return array($json);
+    }
+
+    /**
+     * Compile primary navigation
+     *
+     * @param MainCompile $event
+     */
+    public function onNavigationMainCompile(MainCompile $event)
+    {
+        if (Session::getCurrentUser()) {
+            $event->addNavigationItem(Config::get('URL') . 'auth/unl/logout/', 'Logout');
+        } else {
+            $event->addNavigationItem(Config::get('URL') . 'auth/unl/', 'Login');
+        }
     }
 }
