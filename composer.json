@@ -3,14 +3,9 @@
         {
             "type": "vcs",
             "url": "https://github.com/saltybeagle/SimpleCAS.git"
-        },
-        {
-            "type": "pear",
-            "url": "http://pear.php.net"
         }
     ],
     "require": {
-        "pear-pear.php.net/HTTP_Request2": "*",
-        "SimpleCAS/SimpleCAS": "dev-master"
+        "simple-cas/simple-cas": "dev-master"
     }
 }

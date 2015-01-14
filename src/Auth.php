@@ -1,15 +1,13 @@
 <?php
 namespace SiteMaster\Plugins\Auth_unl;
 
-use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
 use SiteMaster\Core\User\User;
 use SiteMaster\Core\Util;
-use SiteMaster\Core\ViewableInterface;
 
-class Auth implements ViewableInterface
+class Auth
 {
     /**
      * @var array
@@ -19,42 +17,76 @@ class Auth implements ViewableInterface
     public static $directory_url = 'http://directory.unl.edu/';
 
     /**
-     * @param array $options
-     */
-    function __construct($options = array())
-    {
-        if (strpos($options['current_url'], 'logout') !== false) {
-            //handle callback
-            $this->logout();
-        }
-
-        $this->authenticate();
-    }
-
-    /**
      * Authenticate the user
      */
     public function authenticate()
     {
         $client = $this->getClient();
-        $plugin = PluginManager::getManager()->getPluginInfo('auth_unl');
         
         $client->forceAuthentication();
 
         if (!$client->isAuthenticated()) {
             throw new RuntimeException('Unable to authenticate', 403);
         }
-
-        $uid = trim(strtolower($client->getUsername()));
-        if (!$user = User::getByUIDAndProvider($client->getUsername(), $plugin->getProviderMachineName())) {
-            $info = self::getUserInfo($uid);
-            
-            $user = User::createUser($client->getUsername(), $plugin->getProviderMachineName(), $info);
-        }
+        
+        $user = $this->getUser($client->getUsername());
 
         Session::logIn($user);
-        
         Controller::redirect($user->getURL());
+    }
+
+    /**
+     * Get the current user (will create a user if none exist)
+     *
+     * @param $uid string the UID of the user
+     * @return bool|User
+     */
+    protected function getUser($uid)
+    {
+        $uid      = trim(strtolower($uid));
+        $plugin   = PluginManager::getManager()->getPluginInfo('auth_unl');
+        
+        if (null == $uid) {
+            return false;
+        }
+
+        if (!$user = User::getByUIDAndProvider($uid, $plugin->getProviderMachineName())) {
+            $info = self::getUserInfo($uid);
+
+            $user = User::createUser($uid, $plugin->getProviderMachineName(), $info);
+        }
+        
+        return $user;
+    }
+    
+    public function autoLogin()
+    {
+        if (!array_key_exists('unl_sso', $_COOKIE)) {
+            //No unl_sso cookie was found, no need to auto-login.
+            return;
+        }
+
+        if (\SiteMaster\Core\User\Session::getCurrentUser()) {
+            //We are already logged in, no need to auto-login
+            return;
+        }
+
+        $client = $this->getClient();
+        
+        //Everything looks good.  Log in!
+        $client->gatewayAuthentication();
+        
+        if ($client->isAuthenticated()) {
+            $uid = $client->getUsername();
+            $user = $this->getUser($uid);
+            Session::logIn($user);
+        }
+    }
+    
+    public function singleLogOut()
+    {
+        $client = $this->getClient();
+        $client->handleSingleLogOut();
     }
     
     public function logout()
@@ -126,25 +158,5 @@ class Auth implements ViewableInterface
         }
         
         return $info;
-    }
-
-    /**
-     * The URL for this page
-     *
-     * @return string
-     */
-    public function getURL()
-    {
-        return Config::get('URL') . 'auth/unl/';
-    }
-
-    /**
-     * The page title for this page
-     *
-     * @return string
-     */
-    public function getPageTitle()
-    {
-        return "UNL Auth";
     }
 }

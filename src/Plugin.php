@@ -94,12 +94,6 @@ class Plugin extends PluginInterface implements AuthenticationInterface
             'listener' => array($listener, 'onUserSearch')
         );
 
-        $listeners[] = array(
-            'event'    => MainCompile::EVENT_NAME,
-            'listener' => array($listener, 'onNavigationMainCompile'),
-            'priority' => -6,  //Should be the last primary nav element
-        );
-
         return $listeners;
     }
 
@@ -143,5 +137,13 @@ class Plugin extends PluginInterface implements AuthenticationInterface
     public function getProviderHumanName()
     {
         return 'UNL';
+    }
+    
+    public function initialize()
+    {
+        //Attempt to auto-login
+        $auth = new Auth;
+        $auth->singleLogOut();
+        $auth->autoLogin();
     }
 }
