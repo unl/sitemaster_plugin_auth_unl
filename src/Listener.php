@@ -14,8 +14,8 @@ class Listener extends PluginListener
 {
     public function onRoutesCompile(RoutesCompile $event)
     {
-        $event->addRoute('/^auth\/unl\/$/', __NAMESPACE__ . '\Auth');
-        $event->addRoute('/^auth\/unl\/logout\/$/', __NAMESPACE__ . '\Auth');
+        $event->addRoute('/^auth\/unl\/$/', __NAMESPACE__ . '\Auth\View');
+        $event->addRoute('/^auth\/unl\/logout\/$/', __NAMESPACE__ . '\Auth\View');
     }
 
     public function onGetAuthenticationPlugins(GetAuthenticationPlugins $event)
@@ -84,19 +84,5 @@ class Listener extends PluginListener
         }
         
         return array($json);
-    }
-
-    /**
-     * Compile primary navigation
-     *
-     * @param MainCompile $event
-     */
-    public function onNavigationMainCompile(MainCompile $event)
-    {
-        if (Session::getCurrentUser()) {
-            $event->addNavigationItem(Config::get('URL') . 'auth/unl/logout/', 'Logout');
-        } else {
-            $event->addNavigationItem(Config::get('URL') . 'auth/unl/', 'Login');
-        }
     }
 }
