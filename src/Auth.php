@@ -1,6 +1,7 @@
 <?php
 namespace SiteMaster\Plugins\Auth_unl;
 
+use SiteMaster\Core\Config;
 use SiteMaster\Core\Controller;
 use SiteMaster\Core\Plugin\PluginManager;
 use SiteMaster\Core\User\Session;
@@ -122,6 +123,20 @@ class Auth
         $request = new \HTTP_Request2();
         $request->setConfig('adapter', 'HTTP_Request2_Adapter_Curl');
         $protocol->setRequest($request);
+
+        /**
+         * Set up the session cache mapping
+         */
+        $cache_driver = new \Stash\Driver\FileSystem();
+
+        $cache_driver->setOptions(array(
+                //Scope the cache to the current application only.
+                'path' => Config::get('CACHE_DIR') . '/simpleCAS_map',
+        ));
+        
+        $session_map = new \SimpleCAS_SLOMap($cache_driver);
+        
+        $protocol->setSessionMap($session_map);
 
         return \SimpleCAS::client($protocol);
     }
