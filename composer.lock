@@ -1,8 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
-        "This file is @generated automatically"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
     "hash": "0708c6de349daae0aebe49ccd9188615",
     "packages": [
@@ -207,12 +206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/saltybeagle/SimpleCAS.git",
-                "reference": "ec291570cadcecadf080201e55369a1545df532d"
+                "reference": "53fc488295b2de02e6352ea8e1ddf462e6eca441"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/saltybeagle/SimpleCAS/zipball/ec291570cadcecadf080201e55369a1545df532d",
-                "reference": "ec291570cadcecadf080201e55369a1545df532d",
+                "url": "https://api.github.com/repos/saltybeagle/SimpleCAS/zipball/53fc488295b2de02e6352ea8e1ddf462e6eca441",
+                "reference": "53fc488295b2de02e6352ea8e1ddf462e6eca441",
                 "shasum": ""
             },
             "require": {
@@ -226,23 +225,23 @@
                 }
             },
             "support": {
-                "source": "https://github.com/saltybeagle/SimpleCAS/tree/v0.8.1",
+                "source": "https://github.com/saltybeagle/SimpleCAS/tree/master",
                 "issues": "https://github.com/saltybeagle/SimpleCAS/issues"
             },
-            "time": "2014-12-15 18:49:31"
+            "time": "2015-01-29 14:13:41"
         },
         {
             "name": "tedivm/stash",
-            "version": "v0.12.2",
+            "version": "v0.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tedious/Stash.git",
-                "reference": "52312039a5ee8049647332784e032f71adff4dea"
+                "reference": "5b830f6a0e4626e5cd02c862d37721ca16820a13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tedious/Stash/zipball/52312039a5ee8049647332784e032f71adff4dea",
-                "reference": "52312039a5ee8049647332784e032f71adff4dea",
+                "url": "https://api.github.com/repos/tedious/Stash/zipball/5b830f6a0e4626e5cd02c862d37721ca16820a13",
+                "reference": "5b830f6a0e4626e5cd02c862d37721ca16820a13",
                 "shasum": ""
             },
             "require": {
@@ -283,7 +282,7 @@
                 "redis",
                 "sessions"
             ],
-            "time": "2014-12-08 06:02:20"
+            "time": "2015-01-17 07:51:57"
         }
     ],
     "packages-dev": [],
@@ -292,7 +291,6 @@
     "stability-flags": {
         "simple-cas/simple-cas": 20
     },
-    "prefer-stable": false,
     "platform": [],
     "platform-dev": []
 }
