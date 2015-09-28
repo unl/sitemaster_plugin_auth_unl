@@ -51,9 +51,19 @@ class Auth
             return false;
         }
 
-        if (!$user = User::getByUIDAndProvider($uid, $plugin->getProviderMachineName())) {
-            $info = self::getUserInfo($uid);
-
+        $user = User::getByUIDAndProvider($uid, $plugin->getProviderMachineName());
+        $info = self::getUserInfo($uid);
+        
+        if ($user) {
+            //Update the user with their latest information.
+            if (!empty($info['email'])) {
+                $user->email = $info['email'];
+            }
+            $user->first_name = $info['first_name'];
+            $user->last_name = $info['last_name'];
+            
+        } else {
+            //Create a new user
             $user = User::createUser($uid, $plugin->getProviderMachineName(), $info);
         }
         
