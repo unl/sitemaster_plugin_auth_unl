@@ -56,11 +56,18 @@ class Auth
         
         if ($user) {
             //Update the user with their latest information.
-            if (!empty($info['email'])) {
+            if (isset($info['email']) && !empty($info['email'])) {
                 $user->email = $info['email'];
             }
-            $user->first_name = $info['first_name'];
-            $user->last_name = $info['last_name'];
+            
+            if (isset($info['first_name'])) {
+                $user->first_name = $info['first_name'];
+            }
+
+            if (isset($info['last_name'])) {
+                $user->last_name = $info['last_name'];
+            }
+
             $user->save();
             
         } else {
