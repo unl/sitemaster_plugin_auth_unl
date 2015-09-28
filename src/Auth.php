@@ -61,6 +61,7 @@ class Auth
             }
             $user->first_name = $info['first_name'];
             $user->last_name = $info['last_name'];
+            $user->save();
             
         } else {
             //Create a new user
