@@ -16,21 +16,26 @@ class Auth
     protected $options = array();
     
     public static $directory_url = 'http://directory.unl.edu/';
+    
+    public function __construct()
+    {
+        $this->setUpClient();
+    }
 
     /**
      * Authenticate the user
      */
     public function authenticate()
     {
-        $client = $this->getClient();
-        
-        $client->forceAuthentication();
 
-        if (!$client->isAuthenticated()) {
+        \phpCAS::forceAuthentication();
+        
+        
+        if (!\phpCAS::getUser()) {
             throw new RuntimeException('Unable to authenticate', 403);
         }
         
-        $user = $this->getUser($client->getUsername());
+        $user = $this->getUser(\phpCAS::getUser());
 
         Session::logIn($user);
         Controller::redirect($user->getURL());
@@ -89,14 +94,12 @@ class Auth
             //We are already logged in, no need to auto-login
             return;
         }
-
-        $client = $this->getClient();
         
         //Everything looks good.  Log in!
-        $client->gatewayAuthentication();
+        $result = \phpCAS::checkAuthentication();
         
-        if ($client->isAuthenticated()) {
-            $uid = $client->getUsername();
+        if ($result) {
+            $uid = \phpCAS::getUser();
             $user = $this->getUser($uid);
             Session::logIn($user);
         }
@@ -104,61 +107,32 @@ class Auth
     
     public function singleLogOut()
     {
-        $client = $this->getClient();
-        $client->handleSingleLogOut();
+        \phpCAS::handleLogoutRequests(false);
     }
     
     public function logout()
     {
-        $client = $this->getClient();
-        $client->logout(Util::getAbsoluteBaseURL());
+        \phpCAS::logoutWithRedirectService(Util::getAbsoluteBaseURL());
     }
 
     /**
-     * Get the SimpleCAS client
-     *
-     * @return \SimpleCAS
+     * Set up the SimpleCAS client
      */
-    public function getClient()
+    public function setUpClient()
     {
-        $options = array(
-            'hostname' => 'login.unl.edu',
-            'port'     => 443,
-            'uri'      => 'cas'
-        );
+        $plugin = PluginManager::getManager()->getPluginInfo('auth_unl');
+
+        $options = $plugin->getOptions();
         
-        $protocol = new \SimpleCAS_Protocol_Version2($options);
-
-        /**
-         * We need to customize the request to use CURL because 
-         * php5.4 and ubuntu systems can't verify ssl connections 
-         * without specifying a CApath.  CURL does this automatically
-         * based on the system, but openssl does not.
-         * 
-         * It looks like this will be fixed in php 5.6
-         * https://wiki.php.net/rfc/tls-peer-verification
-         */
-        $request = new \HTTP_Request2();
-        $request->setConfig('adapter', 'HTTP_Request2_Adapter_Curl');
-        $protocol->setRequest($request);
-
-        /**
-         * Set up the session cache mapping
-         */
-        $cache_driver = new \Stash\Driver\FileSystem();
-
-        $cache_driver->setOptions(array(
-                //Scope the cache to the current application only.
-                'path' => Config::get('CACHE_DIR') . '/simpleCAS_map',
-        ));
+        if (!file_exists($options['CERT_PATH'])) {
+            throw new \Exception('The current CERT_PATH does not exist: ' . $options['CERT_PATH']);
+        }
         
-        $session_map = new \SimpleCAS_SLOMap($cache_driver);
-        
-        $protocol->setSessionMap($session_map);
-
-        return \SimpleCAS::client($protocol);
+        if (!\phpCAS::isInitialized()) {
+            \phpCAS::client(CAS_VERSION_2_0, 'login.unl.edu', 443, 'cas');
+            \phpCAS::setCasServerCACert($options['CERT_PATH']);
+        }
     }
-
 
     /**
      * Get a user's information from directory.unl.edu

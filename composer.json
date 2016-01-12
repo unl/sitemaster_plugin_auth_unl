@@ -1,11 +1,5 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/saltybeagle/SimpleCAS.git"
-        }
-    ],
     "require": {
-        "simple-cas/simple-cas": "dev-master"
+        "jasig/phpcas": "~1.3"
     }
 }
