@@ -11,6 +11,10 @@ use SiteMaster\Core\Plugin\PluginInterface;
 
 class Plugin extends PluginInterface implements AuthenticationInterface
 {
+    protected $options = array(
+        'CERT_PATH' => '/etc/pki/tls/cert.pem'
+    );
+    
     /**
      * @return bool|mixed
      */
@@ -141,6 +145,9 @@ class Plugin extends PluginInterface implements AuthenticationInterface
     
     public function initialize()
     {
+        //phpCAS always starts a session, so start one early (otherwise our session handler complains).
+        \SiteMaster\Core\User\Session::start();
+
         //Attempt to auto-login
         $auth = new Auth;
         $auth->singleLogOut();
