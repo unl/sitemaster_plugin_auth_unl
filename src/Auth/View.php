@@ -2,6 +2,7 @@
 namespace SiteMaster\Plugins\Auth_unl\Auth;
 
 use SiteMaster\Core\Config;
+use SiteMaster\Core\Controller;
 use SiteMaster\Core\ViewableInterface;
 use SiteMaster\Plugins\Auth_unl\Auth;
 
@@ -25,6 +26,10 @@ class View implements ViewableInterface
 
         //Authenticate
         $this->auth->authenticate();
+
+        $user = \SiteMaster\Core\User\Session::getCurrentUser();
+        
+        Controller::redirect($user->getURL());
     }
     
     /**

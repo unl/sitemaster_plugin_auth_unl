@@ -39,6 +39,10 @@ class Auth
 
         Session::logIn($user);
         Controller::redirect($user->getURL());
+        
+        if (isset($_GET['r'])) {
+            Controller::redirect($_GET['r']);
+        }
     }
 
     /**
