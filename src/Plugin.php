@@ -140,7 +140,7 @@ class Plugin extends PluginInterface implements AuthenticationInterface
      */
     public function getProviderHumanName()
     {
-        return 'UNL';
+        return 'unl.edu';
     }
     
     public function initialize()
