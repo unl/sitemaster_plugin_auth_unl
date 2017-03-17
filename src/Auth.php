@@ -30,14 +30,14 @@ class Auth
 
         \phpCAS::forceAuthentication();
         
-        
         if (!\phpCAS::getUser()) {
             throw new RuntimeException('Unable to authenticate', 403);
         }
         
         $user = $this->getUser(\phpCAS::getUser());
-
-        Session::logIn($user);
+        $plugin = PluginManager::getManager()->getPluginInfo('auth_unl');
+        
+        Session::logIn($user, $plugin->getProviderMachineName());
         
         if (isset($_GET['r'])) {
             Controller::redirect($_GET['r']);
@@ -104,7 +104,8 @@ class Auth
         if ($result) {
             $uid = \phpCAS::getUser();
             $user = $this->getUser($uid);
-            Session::logIn($user);
+            $plugin = PluginManager::getManager()->getPluginInfo('auth_unl');
+            Session::logIn($user, $plugin->getProviderMachineName());
         }
     }
     
