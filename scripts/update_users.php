@@ -14,7 +14,7 @@ foreach ($users as $user) {
         continue;
     }
     
-    if ($user->provider != 'UNL') {
+    if ($user->provider != 'unl.edu') {
         continue;
     }
     

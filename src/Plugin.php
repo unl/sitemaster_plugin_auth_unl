@@ -129,7 +129,7 @@ class Plugin extends PluginInterface implements AuthenticationInterface
      */
     public function getProviderMachineName()
     {
-        return 'UNL';
+        return 'unl.edu';
     }
 
     /**

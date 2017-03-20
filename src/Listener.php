@@ -52,7 +52,7 @@ class Listener extends PluginListener
                 $last_name = $user['sn'][0];
             }
             
-            $event->addResult('UNL', $uid, $email, $first_name, $last_name);
+            $event->addResult('unl.edu', $uid, $email, $first_name, $last_name);
         }
     }
     
