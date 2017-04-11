@@ -88,6 +88,11 @@ class Auth
     
     public function autoLogin()
     {
+        if (isset($_GET['format']) && $_GET['format'] != 'html') {
+            //Don't auto-login on non-html format requests
+            return;
+        }
+        
         if (!array_key_exists('unl_sso', $_COOKIE)) {
             //No unl_sso cookie was found, no need to auto-login.
             return;
