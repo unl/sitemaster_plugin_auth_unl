@@ -106,6 +106,9 @@ class Auth
             $user = $this->getUser($uid);
             $plugin = PluginManager::getManager()->getPluginInfo('auth_unl');
             Session::logIn($user, $plugin->getProviderMachineName());
+        } else {
+            //Be a good citizen and delete the unl_sso cookie (no longer logged into SSO)
+            setcookie('unl_sso', '', time()-3600);
         }
     }
     
