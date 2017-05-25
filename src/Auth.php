@@ -63,6 +63,9 @@ class Auth
         $info = self::getUserInfo($uid);
         
         if ($user) {
+            //UNL users default to not private
+            $user->is_private = User::PRIVATE_NO;
+            
             //Update the user with their latest information.
             if (isset($info['email']) && !empty($info['email'])) {
                 $user->email = $info['email'];
@@ -141,8 +144,10 @@ class Auth
         }
         
         if (!\phpCAS::isInitialized()) {
-            \phpCAS::client(CAS_VERSION_2_0, 'login.unl.edu', 443, 'cas');
-            \phpCAS::setCasServerCACert($options['CERT_PATH']);
+            \phpCAS::client(CAS_VERSION_2_0, 'shib.unl.edu/idp/profile', 443, 'cas');
+            \phpCAS::setNoCasServerValidation();
+            //\phpCAS::setCasServerCACert();
+            //\phpCAS::setCasServerCACert($options['CERT_PATH']);
         }
     }
 

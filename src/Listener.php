@@ -25,6 +25,11 @@ class Listener extends PluginListener
 
     public function onUserSearch(Search $event)
     {
+        if ($event->getProvider() !== 'unl.edu') {
+            //Not searching UNL, don't return anything
+            return;
+        }
+        
         $results = array_merge(
             $this->getSearchResults($event->getSearchTerm()),
             $this->getSearchResultsForUID($event->getSearchTerm())
