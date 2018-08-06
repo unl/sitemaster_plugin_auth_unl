@@ -1,28 +1,28 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "4a73a7879081d038a5fde02c265c0eb3",
+    "content-hash": "9f0765e0b41bbba01f2f757a0cdd7b6e",
     "packages": [
         {
             "name": "jasig/phpcas",
-            "version": "1.3.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Jasig/phpCAS.git",
-                "reference": "8c74d21630f74278270830fdbdb0c1317bce3f0a"
+                "url": "https://github.com/apereo/phpCAS.git",
+                "reference": "7a949dee79aaadc16161d7d4863b5c0871546222"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jasig/phpCAS/zipball/8c74d21630f74278270830fdbdb0c1317bce3f0a",
-                "reference": "8c74d21630f74278270830fdbdb0c1317bce3f0a",
+                "url": "https://api.github.com/repos/apereo/phpCAS/zipball/7a949dee79aaadc16161d7d4863b5c0871546222",
+                "reference": "7a949dee79aaadc16161d7d4863b5c0871546222",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=5.0.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~3.7.10"
@@ -55,10 +55,11 @@
             "description": "Provides a simple API for authenticating users against a CAS server",
             "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
             "keywords": [
+                "apereo",
                 "cas",
                 "jasig"
             ],
-            "time": "2015-11-16 20:44:36"
+            "time": "2018-03-15T13:17:25+00:00"
         },
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -307,13 +308,15 @@
                 "redis",
                 "sessions"
             ],
-            "time": "2015-01-17 07:51:57"
+            "time": "2015-01-17T07:51:57+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jasig/phpcas": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
