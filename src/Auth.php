@@ -15,7 +15,7 @@ class Auth
      */
     protected $options = array();
     
-    public static $directory_url = 'http://directory.unl.edu/';
+    public static $directory_url = 'https://directory.unl.edu/';
     
     public function __construct()
     {
@@ -144,7 +144,7 @@ class Auth
         }
         
         if (!\phpCAS::isInitialized()) {
-            \phpCAS::client(CAS_VERSION_2_0, 'login.unl.edu', 443, 'cas');
+            \phpCAS::client(CAS_VERSION_2_0, 'shib.unl.edu', 443, '/idp/profile/cas');
             \phpCAS::setCasServerCACert($options['CERT_PATH']);
         }
     }
